@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lettuce Smart-Grow | Live Telemetry</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Lettuce Smart-Grow</h1>
+        <div id="status-container">
+            <span id="status-dot"></span>
+            <span id="status-text">Connecting to HiveMQ...</span>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <div class="card nutrient-card">
+            <h3>Nutrients (NPK)</h3>
+            <div class="npk-row">
+                <div class="npk-item">
+                    <span class="npk-label">N</span>
+                    <span id="val-n" class="npk-val">--</span>
+                    <span class="unit">mg/kg</span>
+                </div>
+                <div class="npk-item">
+                    <span class="npk-label">P</span>
+                    <span id="val-p" class="npk-val">--</span>
+                    <span class="unit">mg/kg</span>
+                </div>
+                <div class="npk-item">
+                    <span class="npk-label">K</span>
+                    <span id="val-k" class="npk-val">--</span>
+                    <span class="unit">mg/kg</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Water pH</h3>
+            <div id="val-ph" class="huge-val color-ph">--</div>
+            <span class="unit">Acidity Scale</span>
+        </div>
+
+        <div class="card">
+            <h3>Water Temp</h3>
+            <div id="val-temp" class="huge-val color-temp">--</div>
+            <span class="unit">&deg;C</span>
+        </div>
+
+        <div class="card">
+            <h3>Air Humidity</h3>
+            <div id="val-humidity" class="huge-val color-humidity">--</div>
+            <span class="unit">Relative Humidity</span>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

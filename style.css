@@ -1,0 +1,160 @@
+:root {
+    --bg-color: #0f0f11;
+    --card-bg: #18181c;
+    --border-color: #26262b;
+    --text-main: #e4e4e7;
+    --text-muted: #a1a1aa;
+    
+    /* Telemetry Accent Colors */
+    --clr-ph: #ccff00;
+    --clr-temp: #ff9f43;
+    --clr-humidity: #4dd0e1;
+    --clr-npk: #00cbd6;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    background: linear-gradient(45deg, #4CAF50, #8bc34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#status-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: #202024;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+#status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ff4d4d;
+    transition: background-color 0.3s ease;
+}
+
+#status-dot.connected {
+    background-color: #4caf50;
+    box-shadow: 0 0 8px #4caf50;
+}
+
+.dashboard-grid {
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: #3f3f46;
+}
+
+.card h3 {
+    margin: 0 0 15px 0;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.huge-val {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 5px;
+}
+
+.unit {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Individual Card Highlights */
+.color-ph { color: var(--clr-ph); }
+.color-temp { color: var(--clr-temp); }
+.color-humidity { color: var(--clr-humidity); }
+
+/* NPK Layout Special Rules */
+.nutrient-card {
+    grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+    .nutrient-card { grid-column: span 2; }
+}
+
+.npk-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.npk-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1f1f24;
+    padding: 12px;
+    border-radius: 12px;
+    min-width: 70px;
+}
+
+.npk-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--clr-npk);
+    margin-bottom: 4px;
+}
+
+.npk-val {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
