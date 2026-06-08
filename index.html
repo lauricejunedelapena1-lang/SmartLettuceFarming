@@ -6,7 +6,7 @@
   <title>Lettuce Smart-Grow | Live Telemetry</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -81,9 +81,9 @@
           <canvas id="histChart" role="img" aria-label="Line chart of pH, temperature and humidity over time"></canvas>
         </div>
         <div class="legend-row">
-          <span class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>pH</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#D85A30"></span>Temp &deg;C</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#7F77DD"></span>Humidity %</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#38bdf8"></span>pH</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#fb7185"></span>Temp &deg;C</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#a78bfa"></span>Humidity %</span>
         </div>
       </div>
 
@@ -94,25 +94,25 @@
         <div class="npk-bars">
           <div class="npk-bar-item">
             <div class="npk-bar-label color-green">N</div>
-            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-n" style="background:#639922"></div></div>
+            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-n" style="background:#34d378"></div></div>
             <div class="npk-val-row">
-              <span class="npk-val-num" id="val-n" style="color:#3B6D11">--</span>
+              <span class="npk-val-num" id="val-n" style="color:#34d378">--</span>
               <span class="npk-val-unit">mg/kg</span>
             </div>
           </div>
           <div class="npk-bar-item">
             <div class="npk-bar-label color-coral">P</div>
-            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-p" style="background:#D85A30"></div></div>
+            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-p" style="background:#fb7185"></div></div>
             <div class="npk-val-row">
-              <span class="npk-val-num" id="val-p" style="color:#993C1D">--</span>
+              <span class="npk-val-num" id="val-p" style="color:#fb7185">--</span>
               <span class="npk-val-unit">mg/kg</span>
             </div>
           </div>
           <div class="npk-bar-item">
             <div class="npk-bar-label color-purple">K</div>
-            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-k" style="background:#7F77DD"></div></div>
+            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-k" style="background:#a78bfa"></div></div>
             <div class="npk-val-row">
-              <span class="npk-val-num" id="val-k" style="color:#534AB7">--</span>
+              <span class="npk-val-num" id="val-k" style="color:#a78bfa">--</span>
               <span class="npk-val-unit">mg/kg</span>
             </div>
           </div>
