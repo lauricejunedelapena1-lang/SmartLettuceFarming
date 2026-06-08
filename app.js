@@ -52,10 +52,10 @@ const dom = {
   dosing:      $('dosing-countdown'),
 };
 
-// ---- Chart Setup ----
-const isDark      = matchMedia('(prefers-color-scheme: dark)').matches;
-const gridColor   = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)';
-const tickColor   = isDark ? '#565652' : '#a0a09c';
+// ---- Chart Setup ---- (always dark theme)
+const isDark    = true;
+const gridColor = 'rgba(52,211,120,0.06)';
+const tickColor = '#3d6347';
 
 const chartDefaults = {
   responsive: true,
@@ -72,8 +72,8 @@ const histChart = new Chart($('histChart'), {
       {
         label: 'pH',
         data: Array(HISTORY_LEN).fill(null),
-        borderColor: '#378ADD',
-        backgroundColor: isDark ? 'rgba(55,138,221,0.06)' : 'rgba(55,138,221,0.08)',
+        borderColor: '#38bdf8',
+        backgroundColor: 'rgba(56,189,248,0.07)',
         borderWidth: 2,
         pointRadius: 2,
         pointHoverRadius: 5,
@@ -85,7 +85,7 @@ const histChart = new Chart($('histChart'), {
       {
         label: 'Temp (°C)',
         data: Array(HISTORY_LEN).fill(null),
-        borderColor: '#D85A30',
+        borderColor: '#fb7185',
         backgroundColor: 'transparent',
         borderWidth: 2,
         pointRadius: 2,
@@ -97,7 +97,7 @@ const histChart = new Chart($('histChart'), {
       {
         label: 'Humidity (%)',
         data: Array(HISTORY_LEN).fill(null),
-        borderColor: '#7F77DD',
+        borderColor: '#a78bfa',
         backgroundColor: 'transparent',
         borderWidth: 2,
         pointRadius: 2,
@@ -133,7 +133,7 @@ const histChart = new Chart($('histChart'), {
       yTemp: {
         position: 'right',
         grid: { display: false },
-        ticks: { color: '#D85A30', font: { size: 10 }, callback: v => v.toFixed(0) + '°' },
+        ticks: { color: '#fb7185', font: { size: 10 }, callback: v => v.toFixed(0) + '°' },
         min: 15, max: 35,
       },
       yHum: { display: false, min: 0, max: 100 },
@@ -149,9 +149,9 @@ const npkChart = new Chart($('npkChart'), {
     datasets: [{
       data: [0, 0, 0],
       backgroundColor: [
-        'rgba(99,153,34,0.75)',
-        'rgba(216,90,48,0.75)',
-        'rgba(127,119,221,0.75)',
+        'rgba(52,211,120,0.7)',
+        'rgba(251,113,133,0.7)',
+        'rgba(167,139,250,0.7)',
       ],
       borderRadius: 5,
       borderSkipped: false,
@@ -181,7 +181,7 @@ const phGauge = new Chart($('phGauge'), {
   data: {
     datasets: [{
       data: [0, 14],
-      backgroundColor: ['#378ADD', isDark ? 'rgba(55,138,221,0.08)' : 'rgba(55,138,221,0.1)'],
+      backgroundColor: ['#38bdf8', 'rgba(56,189,248,0.06)'],
       borderWidth: 0,
       circumference: 220,
       rotation: 250,
@@ -201,7 +201,7 @@ const scatterChart = new Chart($('scatterChart'), {
     datasets: [{
       label: 'Readings',
       data: [],
-      backgroundColor: 'rgba(29,158,117,0.55)',
+      backgroundColor: 'rgba(52,211,120,0.6)',
       pointRadius: 5,
       pointHoverRadius: 7,
     }],
