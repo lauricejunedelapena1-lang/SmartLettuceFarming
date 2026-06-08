@@ -1,63 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lettuce Smart-Grow | Live Telemetry</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lettuce Smart-Grow | Live Telemetry</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
 
-    <header>
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-badge"><i class="ti ti-leaf"></i></div>
+      <div class="title-block">
         <h1>Lettuce Smart-Grow</h1>
-        <div id="status-container">
-            <span id="status-dot"></span>
-            <span id="status-text">Connecting to HiveMQ...</span>
-        </div>
-    </header>
+        <p>Live Telemetry &mdash; Zone A3</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="ts" id="clock">--:--:--</span>
+      <div class="conn-badge">
+        <span class="conn-dot" id="status-dot"></span>
+        <span id="status-text">Connecting to HiveMQ...</span>
+      </div>
+    </div>
+  </header>
 
-    <main class="dashboard-grid">
-        <div class="card nutrient-card">
-            <h3>Nutrients (NPK)</h3>
-            <div class="npk-row">
-                <div class="npk-item">
-                    <span class="npk-label">N</span>
-                    <span id="val-n" class="npk-val">--</span>
-                    <span class="unit">mg/kg</span>
-                </div>
-                <div class="npk-item">
-                    <span class="npk-label">P</span>
-                    <span id="val-p" class="npk-val">--</span>
-                    <span class="unit">mg/kg</span>
-                </div>
-                <div class="npk-item">
-                    <span class="npk-label">K</span>
-                    <span id="val-k" class="npk-val">--</span>
-                    <span class="unit">mg/kg</span>
-                </div>
+  <main>
+    <!-- Metric Cards -->
+    <div class="metrics-row">
+      <div class="metric">
+        <div class="metric-header">
+          <span class="metric-label">Water pH</span>
+          <i class="ti ti-droplet metric-icon color-blue"></i>
+        </div>
+        <div class="metric-value" id="val-ph">--</div>
+        <div class="metric-unit">Acidity Scale</div>
+        <div class="metric-trend" id="trend-ph">&mdash;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-header">
+          <span class="metric-label">Water Temp</span>
+          <i class="ti ti-temperature metric-icon color-coral"></i>
+        </div>
+        <div class="metric-value" id="val-temp">--</div>
+        <div class="metric-unit">&deg;C</div>
+        <div class="metric-trend" id="trend-temp">&mdash;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-header">
+          <span class="metric-label">Air Humidity</span>
+          <i class="ti ti-cloud metric-icon color-purple"></i>
+        </div>
+        <div class="metric-value" id="val-humidity">--</div>
+        <div class="metric-unit">Relative Humidity %</div>
+        <div class="metric-trend" id="trend-hum">&mdash;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-header">
+          <span class="metric-label">Last Update</span>
+          <i class="ti ti-wifi metric-icon color-amber"></i>
+        </div>
+        <div class="metric-value" style="font-size:20px;letter-spacing:-0.5px" id="val-last-update">--:--:--</div>
+        <div class="metric-unit">ESP32 packet timestamp</div>
+        <div class="metric-trend trend-neutral" id="trend-ec"><i class="ti ti-radio"></i> lettuce/system/telemetry</div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <!-- History Line Chart -->
+      <div class="chart-card">
+        <div class="chart-title">Sensor History</div>
+        <div class="chart-subtitle">Last 20 readings &mdash; live feed</div>
+        <div class="chart-wrap" style="height:200px">
+          <canvas id="histChart" role="img" aria-label="Line chart of pH, temperature and humidity over time"></canvas>
+        </div>
+        <div class="legend-row">
+          <span class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>pH</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#D85A30"></span>Temp &deg;C</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#7F77DD"></span>Humidity %</span>
+        </div>
+      </div>
+
+      <!-- NPK Card -->
+      <div class="chart-card">
+        <div class="chart-title">NPK Nutrients</div>
+        <div class="chart-subtitle">mg/kg &mdash; current readings</div>
+        <div class="npk-bars">
+          <div class="npk-bar-item">
+            <div class="npk-bar-label color-green">N</div>
+            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-n" style="background:#639922"></div></div>
+            <div class="npk-val-row">
+              <span class="npk-val-num" id="val-n" style="color:#3B6D11">--</span>
+              <span class="npk-val-unit">mg/kg</span>
             </div>
+          </div>
+          <div class="npk-bar-item">
+            <div class="npk-bar-label color-coral">P</div>
+            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-p" style="background:#D85A30"></div></div>
+            <div class="npk-val-row">
+              <span class="npk-val-num" id="val-p" style="color:#993C1D">--</span>
+              <span class="npk-val-unit">mg/kg</span>
+            </div>
+          </div>
+          <div class="npk-bar-item">
+            <div class="npk-bar-label color-purple">K</div>
+            <div class="npk-bar-track"><div class="npk-bar-fill" id="bar-k" style="background:#7F77DD"></div></div>
+            <div class="npk-val-row">
+              <span class="npk-val-num" id="val-k" style="color:#534AB7">--</span>
+              <span class="npk-val-unit">mg/kg</span>
+            </div>
+          </div>
         </div>
-
-        <div class="card">
-            <h3>Water pH</h3>
-            <div id="val-ph" class="huge-val color-ph">--</div>
-            <span class="unit">Acidity Scale</span>
+        <div class="chart-wrap" style="height:110px;margin-top:8px">
+          <canvas id="npkChart" role="img" aria-label="Bar chart comparing NPK nutrient levels">N, P, K nutrients</canvas>
         </div>
+      </div>
+    </div>
 
-        <div class="card">
-            <h3>Water Temp</h3>
-            <div id="val-temp" class="huge-val color-temp">--</div>
-            <span class="unit">&deg;C</span>
+    <!-- Bottom Row -->
+    <div class="bottom-row">
+      <!-- pH Gauge -->
+      <div class="chart-card">
+        <div class="chart-title">pH Gauge</div>
+        <div class="chart-subtitle">Target range 5.5 &ndash; 6.5</div>
+        <div class="chart-wrap gauge-wrap">
+          <canvas id="phGauge" role="img" aria-label="Doughnut gauge showing current pH level"></canvas>
         </div>
-
-        <div class="card">
-            <h3>Air Humidity</h3>
-            <div id="val-humidity" class="huge-val color-humidity">--</div>
-            <span class="unit">Relative Humidity</span>
+        <div class="gauge-center">
+          <div class="gauge-val" id="ph-center">--</div>
+          <div class="gauge-label">CURRENT pH</div>
         </div>
-    </main>
+      </div>
 
-    <script src="app.js"></script>
+      <!-- Scatter Chart -->
+      <div class="chart-card">
+        <div class="chart-title">Humidity &amp; Temp Scatter</div>
+        <div class="chart-subtitle">Growth comfort zone</div>
+        <div class="chart-wrap" style="height:180px">
+          <canvas id="scatterChart" role="img" aria-label="Scatter chart of temperature versus humidity readings"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-row">
+      <span class="status-chip chip-ok" id="chip-ph"><i class="ti ti-check"></i> pH Optimal</span>
+      <span class="status-chip chip-ok"><i class="ti ti-check"></i> Nutrients Balanced</span>
+      <span class="status-chip chip-warn" id="chip-hum"><i class="ti ti-alert-triangle"></i> Humidity Low</span>
+      <span class="status-chip chip-info"><i class="ti ti-info-circle"></i> Next dosing in <span id="dosing-countdown">14</span> min</span>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
